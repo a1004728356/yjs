@@ -1,0 +1,152 @@
+交换机：
+用户模式：switch>
+特权模式：switch#
+全局配置模式：switch(config)#
+从用户模式进入特权模式：enable
+从特权模式进入全局配置模式：configure terminal
+模式间的切换：exit（返回上一层）
+	      end（特权模式）
+	      ctrl+z退出特权模式
+配置主机名：在全局配置模式中输入hostname 主机名
+查看交换机的配置：在特权模式中输入show running-config
+配置enable明文口令：在全局配置模式中输入enable password 密码
+配置密文口令：switch(config)#enable secret 密码（在交换机中如果明文口令和密文口令都配置了，在用户进入特权模式时密文口令有效）
+保存交换机的配置文件：在特权模式中输入copy running-config或write
+设备恢复出厂设置：在特权模式中输入erase startup-config和reload
+禁用DNS查询：在全局配置模式中输入no ip domain-lookup
+打断命令输入：在全局配置模式中输入line console 0和logging synchronous
+自动退出配置界面：在全局配置模式中输入line concole 0和exec-timeout 0 0（分钟 秒）
+查看mac地址表：在特权模式中输入show mac-address-table
+查看交换机端口类型：show interfaces f0/1 switchport(Operational Mode: static access)
+
+创建vlan：switch(config)#vlan vlan-id（添加vlan）
+	  switch(config-vlan)#name vlan-name（改名）
+	  switch(config)#no vlan-id（删除）
+	  switch(config)#interface f0/1（进入端口）
+	  switch(config-if)#swithport access vlan vlan-id（将端口加入vlan）
+	  switch(config-if)#no swithport access vlan vlan-id（将端口从vlan中删除）
+	  switch(config)#interface range f0/1-10（同时将多个端口添加到某vlan中）
+	  switch#show vlan brief（查看vlan配置）
+	  虚拟IP地址
+	  switch(config)#interface vlan 5
+	  switch(config-if)#ip address 192.168.0.5 255.255.255.0
+	  switch(config-if)#no shutdown
+	  虚拟网关
+	  switch(config)#ip default-gateway 192.168.0.254
+
+设置trunk
+修改接口模式为trunk中继链路（进入链路端口）switch(config-if)#switchport mode trunk
+恢复接口模式（进入链路端口）switch(config-if)#no switchport mode trunk
+在trunk中添加、删除vlan：switch(config-if)#switchport trunk allowed vlan remove 10
+			 switch(config-if)#switchport trunk allowed vlan add 10	
+
+配置以太通道
+进入组接口：switch(config)#interface range f0/3-4
+捆绑为1号通道：switch(config-if-range)#channel-group 1 mode on
+进入1号通道后配置为中继链路：switch(config)#interface port-channel 1
+			switch(config-if)#switchport mode trunk
+查看以太通道信息：switch#show etherchannel summary
+
+
+
+路由器：
+查看路由表：show ip rounte
+
+直连路由配置：
+添加IP地址：router(config)#interface fastethernet 0/1
+	    router(config-if)#ip address 192.168.0.1 255.255.255.0
+	    router(config-if)#no shutdown
+删除ip地址：router(config)#interface fastethernet 0/1
+	    router(config-if)#no ip address 
+
+静态路由配置：ip route 目标网络ID 子网掩码 下一跳
+
+
+
+三层交换机：
+开启三层交换机的路由功能：switch(config)#ip routing
+将交换机端口转换为路由器端口：int f0/4
+			no switchport
+
+创建所需vlan：vlan 2
+为vlan配置ip地址，作为客户机的网关：int vlan2
+				    ip address 192.168.2.254 255.255.255.0
+				    no shutdown
+将客户机连接端口加入vlan：int f0/2
+			  switch access vlan 2
+为三层交换机端口配置中继链路（首先打封装）：int f0/1
+				      switchport trunk encapsulation dot1q
+				      switchport mode trunk
+
+配置动态路由（通过配置ospf使全网互通）
+启动OSPF路由进程：router(config)#roter ospf process-id
+指定OSPF协议运行的目标接口和所在的区域：router(config-router)#network address inverse-mask area area-id
+
+
+
+配置acl
+查看访问控制列表：show access-lists
+删除列表：no access-list 1
+创建acl：router(config)#access-list 1 {permit（允许数据包通过）|deny（拒绝数据包通过）} source 192.168.1.0 0.0.0.255（0严格匹配，1不匹配）
+			access-list 1 deny host 192.168.2.2
+			access-list 1 permit any
+将acl应用于接口：router(config-if)#ip access-group access-list-number {in|out}
+取消接口上的应用：router(config-if)#no ip access-group 1 {in|out}
+
+
+
+配置nat
+静态nat：
+接口地址ip配置：router(config)#interface g0/1
+	         router(config-if)#ip address 100.0.0.1 255.0.0.0
+	         router(config-if)#no shut（外部端口Ip地址）
+	         router(config)#interface g0/0
+	         router(config-if)#ip address 192.168.1.254 255.255.255.0
+	         router(config-if)#no shut（内部端口Ip地址）
+建立静态地址转换：router(config)#ip nat inside source static 192.168.1.1 100.0.0.2
+在内外端口上启用NAT：router(config)#interface g0/1
+		    router(config-if)#ip nat outside
+		    router(config)#interface g0/0
+		    router(config-if)#ip nat inside
+
+端口多路复用pat：
+接口地址ip配置：router(config)#interface g0/1
+	         router(config-if)#ip address 100.0.0.1 255.0.0.0
+	         router(config-if)#no shut（外部端口Ip地址）
+	         router(config)#interface g0/0
+	         router(config-if)#ip address 192.168.1.254 255.255.255.0
+	         router(config-if)#no shut（内部端口Ip地址）
+使用访问控制列表定义哪些内部主机能做PAT：router(config)#access-list 1 permit 192.168.1.0 0.0.0.255
+设置复用动态ip地址转换：router(config)# ip nat source list 1 interface g0/1 overload
+在内部和外部端口上启用NAT，以及配置默认路由：router(config)#interface g0/1
+		   		          router(config-if)#ip nat outside
+		    	                          router(config)#interface g0/0
+		    		          router(config-if)#ip nat inside
+
+排错nat错误（跟踪nat）：router#debug ip nat
+取消排错nat错误（取消跟踪nat）：router#undebug ip nat
+
+
+
+配置STP（pvst+越小越优先）
+启用生成树命令：switch(config)#spanning-tree vlan vlan-list
+指定根网桥：switch(config)#spanning-tree vlan vlan-list priority bridge-priority
+    	   switch(config)#spanning-tree vlan vlan-list root {primary|secondary}
+查看生成树的配置：switch#show spanning-tree vlan 1
+查看某个vlan的生成树详细信息：switch#show spanning-tree vlan vlan-id
+
+
+
+HSRP（热备份配置，越大越优先）
+进入vlan接口进行配置：switch(config)#interface vlan 1
+配置为HSRP的成员：switch(config-if)#standby group-number（备份组号） ip virtual-ip-address（备份组虚拟IP地址）
+配置HSRP的优先级：switch(config-if)#standby group-number priority priority-value（范围0~255，默认100）
+查看HSRP摘要信息：switch#show standby brief
+
+HSRP端口跟踪
+进入vlan接口进行配置：switch(config)#interface vlan 1
+配置端口跟踪：switch(config-if)#standby group-number track type mod/num interface-priority
+	      switch(config-if)#standby 1 track f0/1 10（真机可用）
+	      switch(config-if)#standby 1 track f0/1 10（模拟器和真机都可用）	
+HSPR占先权：switch(config-if)#standby group-number preempt
+	     switch(config-if)#standby 1 preempt

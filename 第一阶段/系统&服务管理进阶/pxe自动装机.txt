@@ -1,0 +1,4 @@
+1.搭建DHCP
+2.搭建tftp
+3.生成pxelinux.0（类似于说明书）
+4.修改default菜单文件（vesamenu.c32图形界面、vmlinuz内核、initrd.img驱动文件、ks.cfg自动应答文件）
