@@ -2,7 +2,7 @@
 name=1708
 baseurl=ftp://192.168.1.254/1708
 enabled=1
-gpgcheck=0
+gpgcheck=1
 [ext]
 name=ext
 baseurl=ftp://192.168.1.254/ext
