@@ -134,6 +134,15 @@ redis-sentinel提供了接口，请求任何一个sentinel，发送SENTINEL get-master-addr-by-
 
 方案2：
     增加配置切换脚本 sentinel.conf
+    bind 0.0.0.0
+    protected-mode no
+    daemonize yes
+    port 26379
+    dir /tmp
+    sentinel monitor mymaster 192.168.1.11 6379 1
+    sentinel down-after-milliseconds mymaster 3000
+    sentinel parallel-syncs mymaster 1
+    sentinel failover-timeout mymaster 5000
     sentinel client-reconfig-script mymaster /usr/local/redis/conf/reconfig.sh
 
 reconfig.sh

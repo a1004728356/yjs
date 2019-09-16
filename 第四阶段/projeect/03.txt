@@ -148,7 +148,10 @@ keepalived 配置，vip 配置
 global_defs {
     router_id mycat
 }
-
+vrrp_script chk_haproxy {
+	script "killall -0 haproxy"
+	interval2
+}
 vrrp_instance Mycat {
     state BACKUP
     interface eth0
@@ -157,7 +160,7 @@ vrrp_instance Mycat {
     }
     virtual_router_id 150
     priority 200
-    nopreempt
+    nopreempt（备份的不加）
     advert_int 5
     authentication {
         auth_type PASS
@@ -166,4 +169,7 @@ vrrp_instance Mycat {
     virtual_ipaddress {
         192.168.4.150/24   brd 192.168.4.255   dev eth0 label eth0:1
     }
+    track_script {
+    	chk_haproxy weight=0
+    }	
 }
