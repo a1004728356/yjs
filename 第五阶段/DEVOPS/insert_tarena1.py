@@ -13,11 +13,12 @@ from dbconn import Session,Departments,Employees,Salary
 # tom=Employees(emp_id=3,emp_name='tom',gender='male',birth_date='1990-01-12',email='a576860507@qq.com',dep_id='5')
 # aaa=Employees(emp_id=4,emp_name='aaa',gender='male',birth_date='1991-01-12',email='a576860507@qq.com',dep_id='5')
 aaa=Salary(auto_id=1,data='2019/11/27',emp_id='4',basic='10000',awards='2000')
-
-
-
-
+#
+#
+#
+#
 session=Session()
+# session.add_all([aaa,tom,bob,alice])
 session.add(aaa)
 session.commit()
 session.close()

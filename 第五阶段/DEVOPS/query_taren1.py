@@ -39,7 +39,7 @@ print(qset7)#查询名字不是这两个部门的ID
 for did in qset7:
     print(did)
 #############################################################
-from sqlalchemy import and_,or_
+from sqlalchemy import and_,or_,delete
 from dbconn import Employees
 qset8=session.query(Employees).filter(and_(Employees.gender=='male',Employees.dep_id==4))
 print(qset8)
@@ -57,3 +57,40 @@ print(qset10.first())#只返回查询到的第一个结果
 qset11=session.query(Departments).filter(Departments.dep_id==1)
 print(qset11.one())
 print(qset11.scalar())#调用one(),返回第一列
+#############################################################
+qset12=session.query(Departments).filter(Departments.dep_id.isnot(None)).order_by(Departments.dep_id)
+print(qset12)
+for i in qset12:
+    print(i)
+qset13=session.query(Departments).filter(Departments.dep_id.is_(None)).order_by(Departments.dep_id)
+print(qset13)
+for i in qset13:
+    print(i)
+##############################################################
+#统计一共有几个部门
+qset13=session.query(Departments).count()
+print(qset13)
+############################################################
+#得到每个员工在哪个部门，部门使用名字，不用ID
+qset14=session.query(Employees.emp_name,Departments.dep_name).join(Departments,Employees.dep_id==Departments.dep_id)
+print(qset14.all())
+#注意query()中先写Employees.emp_name,join()中就要先用Departments
+#########################################################
+#第一种修改记录的方法，通过查询语句的update方法
+hr=session.query(Departments).filter(Departments.dep_name=='hr')
+print(hr)
+hr.update({'dep_name':'人力资源部'})
+session.commit()
+session.close()
+###########################################################
+hr=session.query(Departments).get(1)#获取主键是1的实例
+print(hr)
+hr.dep_name='人事部'
+session.commit()
+session.close
+###########################################################
+#删除ID为5的员工记录
+tom=session.query(Employees).get(5)
+session.delete(tom)
+session.commit()
+session.close()
