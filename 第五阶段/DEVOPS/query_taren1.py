@@ -90,7 +90,16 @@ session.commit()
 session.close
 ###########################################################
 #删除ID为5的员工记录
-tom=session.query(Employees).get(5)
-session.delete(tom)
+# tom=session.query(Employees).get(5)
+# session.delete(tom)
+# session.commit()
+# session.close()
+session=Session()
+#session.query(Employees).filter(Employees.emp_id==1).delete()
+a=session.query(Employees).get(3)
+#for i in a:
+#       print(i)
+#print(a)
+session.delete(a)
 session.commit()
 session.close()
