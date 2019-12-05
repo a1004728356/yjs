@@ -12,11 +12,10 @@ def send_msg(host,pwd,sender,receiver,subject,msg):
     smtp.login(sender,pwd)
     smtp.sendmail(sender,receiver,message.as_string())#发送邮件
 if __name__ == '__main__':
-    host='smtp.qq.com'
+    host='smtp.126.com'
     pwd=getpass.getpass()
-    user='576860507'
-    sender = '576860507'  # 发件人
-    receiver = ['a576860507@qq.com']  # 收件人
+    sender = 'a576860507@126.com'  # 发件人
+    receiver = ['a576860507@126.com']  # 收件人
     subject='邮件测试'
     msg='这是python邮件测试\r\n'
     send_msg(pwd,sender,host,receiver,subject,msg)
