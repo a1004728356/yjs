@@ -14,7 +14,7 @@ def send_msg(host,pwd,sender,receiver,subject,msg):
 if __name__ == '__main__':
     host='smtp.126.com'
     pwd=getpass.getpass()
-    sender = 'a576860507@126.com'  # 发件人
+    sender = 'a576860507'  # 发件人
     receiver = ['a576860507@126.com']  # 收件人
     subject='邮件测试'
     msg='这是python邮件测试\r\n'
