@@ -9,8 +9,8 @@ header={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (K
 r=requests.get('http://127.0.0.1',headers=header)
 ########################################################0
 #data用于提交表单数据
-data={'usename':'xxx','password':'yyyyyy'}
-r=requests.post('http://login.baidu.com',data=data)
+# data={'usename':'xxx','password':'yyyyyy'}
+# r=requests.post('http://login.baidu.com',data=data)
 #######################################
 #获得网页信息
 r=requests.get('http://www.baidu.com/')
