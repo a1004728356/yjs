@@ -27,3 +27,18 @@ r3.json()
 ##################
 r4=requests.get('http://www.baidu.com')
 r4.status_code
+r.status_code==requests.codes.ok#判断
+requests.codes.ok#200
+requests.codes.not_found#404
+########################
+bad_r=requests.get('http://127.0.0.1/aaa')
+bad_r.status_code#404
+bad_r.raise_for_status()
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+#   File "/usr/local/python3/lib/python3.6/site-packages/requests/models.py", line 940, in raise_for_status
+#     raise HTTPError(http_error_msg, response=self)
+# requests.exceptions.HTTPError: 404 Client Error: Not Found for url: http://127.0.0.1/aaa
+
+
+
