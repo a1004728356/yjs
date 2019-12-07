@@ -20,3 +20,7 @@ r.encoding='utf8'
 r2=requests.get('http://g.hiphotos.baidu.com/exp/w=500/sign=67597f61b951f819f125034aeab54a76/09fa513d269759ee63269981bbfb43166d22df02.jpg')
 with open('a.jpg','wb') as fobj:
     fobj.write(r2.content)#content是bytes格式
+######################
+r3=requests.get('http://www.weather.com.cn/data/sk/101100101.html')
+r3.encoding='utf8'
+r3.json()
