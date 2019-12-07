@@ -15,7 +15,7 @@ r=requests.get('http://127.0.0.1',headers=header)
 #获得网页信息
 r=requests.get('http://www.baidu.com/')
 data=r.text#查看页面内容，默认的文字编码是ISO8859-1
-r.encoding('utf8')
+r.encoding='utf8'
 #######################
 r2=requests.get('http://g.hiphotos.baidu.com/exp/w=500/sign=67597f61b951f819f125034aeab54a76/09fa513d269759ee63269981bbfb43166d22df02.jpg')
 with open('a.jpg','wb') as fobj:
