@@ -24,3 +24,6 @@ with open('a.jpg','wb') as fobj:
 r3=requests.get('http://www.weather.com.cn/data/sk/101100101.html')
 r3.encoding='utf8'
 r3.json()
+##################
+r4=requests.get('http://www.baidu.com')
+r4.status_code
