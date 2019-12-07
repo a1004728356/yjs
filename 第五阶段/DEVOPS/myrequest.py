@@ -11,3 +11,8 @@ r=requests.get('http://127.0.0.1',headers=header)
 #data用于提交表单数据
 data={'usename':'xxx','password':'yyyyyy'}
 r=requests.post('http://login.baidu.com',data=data)
+#######################################
+#获得网页信息
+r=requests.get('http://www.baidu.com/')
+data=r.text#查看页面内容
+print(data)
