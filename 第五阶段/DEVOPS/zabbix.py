@@ -11,4 +11,4 @@ data = {
 }
 # zabbix要求提交的数据是json格式
 r = requests.post(url, headers=headers, data=json.dumps(data))
-print(r.json())  # zabbix返回的数据都是json格式
+print(list(str(r.content,encoding='utf8').split('\n'))[-1])  # zabbix返回的数据都是json格式
