@@ -8,7 +8,7 @@ import requests
 header={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
 r=requests.get('http://127.0.0.1',headers=header)
 ########################################################0
-#data用于提交表单数据
+# data用于提交表单数据
 # data={'usename':'xxx','password':'yyyyyy'}
 # r=requests.post('http://login.baidu.com',data=data)
 #######################################
@@ -30,6 +30,7 @@ r4.status_code
 r.status_code==requests.codes.ok#判断
 requests.codes.ok#200
 requests.codes.not_found#404
+print(r.headers)
 ########################
 bad_r=requests.get('http://127.0.0.1/aaa')
 bad_r.status_code#404
